@@ -10,18 +10,16 @@ struct student
 };
 
 struct student *temp1;
-
-struct student *topid8;
-struct student *topid9;
-struct student *topid10;
-
+struct student *root8;
+struct student *root9;
+struct student *root10;
 struct student *top8;
 struct student *top9;
 struct student *top10;
 
 struct student *create(char name[], char rollno[], int class)
 {
-    struct student *newnode = (struct student *)calloc(1,sizeof(struct student));
+    struct student *newnode = (struct student *)calloc(1, sizeof(struct student));
     strcpy(newnode->name, name);
     strcpy(newnode->rollno, rollno);
     newnode->class = class;
@@ -30,7 +28,7 @@ struct student *create(char name[], char rollno[], int class)
         if (top8 == NULL)
         {
             top8 = newnode;
-            topid8 = newnode;
+            root8 = newnode;
             newnode->next = NULL;
             return top8;
         }
@@ -47,7 +45,7 @@ struct student *create(char name[], char rollno[], int class)
         if (top9 == NULL)
         {
             top9 = newnode;
-            topid9 = newnode;
+            root9 = newnode;
             newnode->next = NULL;
             return top9;
         }
@@ -65,7 +63,7 @@ struct student *create(char name[], char rollno[], int class)
         if (top10 == NULL)
         {
             top10 = newnode;
-            topid10 = newnode;
+            root10 = newnode;
             newnode->next = NULL;
             return top10;
         }
@@ -81,7 +79,7 @@ struct student *create(char name[], char rollno[], int class)
 
 void display(int class)
 {
-    struct student *temp1 = topid8;
+    struct student *temp1 = root8;
 
     int i = 1;
     if (class == 8)
@@ -104,12 +102,12 @@ void display(int class)
         if (class == 9)
         {
             printf("\nStudent Details of class 9th\n");
-            temp1 = topid9; // Assign the correct pointer based on class
+            temp1 = root9; // Assign the correct pointer based on class
         }
         else
         {
             printf("\nStudent Details of class 10th\n");
-            temp1 = topid10; // Assign the correct pointer based on class
+            temp1 = root10; // Assign the correct pointer based on class
         }
         printf("===================================================================================\n");
         printf("Slno\tName\tRollNo\tEnglish\tMaths\tSocial\tHindi\tPhysics\tChemistry   Biology   TotalMarks\n");
@@ -170,15 +168,15 @@ void delete(int class, char rollno[])
     struct student *temp2 = NULL;
     if (class == 8)
     {
-        temp1 = topid8;
+        temp1 = root8;
     }
     else if (class == 9)
     {
-        temp1 = topid9;
+        temp1 = root9;
     }
     else if (class == 10)
     {
-        temp1 = topid10;
+        temp1 = root10;
     }
     else
     {
@@ -202,18 +200,18 @@ void delete(int class, char rollno[])
     {
         if (class == 8)
         {
-            topid8 = NULL;
+            root8 = NULL;
             top8 = NULL;
         }
         else if (class == 9)
         {
             top9 = NULL;
-            topid9 = NULL;
+            root9 = NULL;
         }
         else if (class == 10)
         {
             top10 = NULL;
-            topid10 = NULL;
+            root10 = NULL;
         }
     }
 
@@ -221,15 +219,15 @@ void delete(int class, char rollno[])
     {
         if (class == 8)
         {
-            topid8 = temp1->next;
+            root8 = temp1->next;
         }
         else if (class == 9)
         {
-            topid9 = temp1->next;
+            root9 = temp1->next;
         }
         else if (class == 10)
         {
-            topid10 = temp1->next;
+            root10 = temp1->next;
         }
     }
     else
@@ -306,15 +304,15 @@ struct student *find(int class, char rollno[])
 {
     if (class == 8)
     {
-        temp1 = topid8;
+        temp1 = root8;
     }
     else if (class == 9)
     {
-        temp1 = topid9;
+        temp1 = root9;
     }
     else if (class == 10)
     {
-        temp1 = topid10;
+        temp1 = root10;
     }
     while (temp1 != NULL)
     {
@@ -330,11 +328,11 @@ void writedata()
 {
     FILE *testfile;
     int i;
-    if (topid8 != NULL)
+    if (root8 != NULL)
     {
         testfile = fopen("output8.txt", "w");
         fprintf(testfile, "Slno\tName\tRollNo\tMaths\tSocial\tHindi\tScience\tEnglish\tTotalMarks\n");
-        temp1 = topid8;
+        temp1 = root8;
         i = 1;
         while (temp1->name != NULL)
         {
@@ -345,11 +343,11 @@ void writedata()
         fclose(testfile);
     }
 
-    if (topid9 != NULL)
+    if (root9 != NULL)
     {
         testfile = fopen("output9.txt", "w");
         fprintf(testfile, "Slno\tName\tRollNo\tEnglish\tMaths\tSocial\tHindi\tPhysics\tChemistry\tBiology\tTotalMarks\n");
-        temp1 = topid9;
+        temp1 = root9;
         i = 1;
         while (temp1->name != NULL)
         {
@@ -360,11 +358,11 @@ void writedata()
         fclose(testfile);
     }
 
-    if (topid10 != NULL)
+    if (root10 != NULL)
     {
         testfile = fopen("output10.txt", "w");
         fprintf(testfile, "Slno\tName\tRollNo\tEnglish\tMaths\tSocial\tHindi\tPhysics\tChemistry\tBiology\tTotalMarks\n");
-        temp1 = topid10;
+        temp1 = root10;
         i = 1;
         while (temp1->name != NULL)
         {
@@ -374,8 +372,6 @@ void writedata()
         }
         fclose(testfile);
     }
-    printf("exit..");
-    exit(0);
 }
 void readsub8(int maths, int social, int hindi, int science, int english, struct student *newnode)
 {
@@ -462,14 +458,17 @@ void certificate(int class, char rollno[])
     printf("|\tENGLISH       \t  100      \t   33       \t    %d\n", node->english);
     printf("|\tMATHEMATICS   \t  100      \t   33       \t    %d\n", node->maths);
     printf("|\tSOCIAL SCIENCE\t  100      \t   33       \t    %d\n", node->social);
-    if(class==8){
-    printf("|\tSCIENCE       \t  100      \t   33       \t    %d\n", node->science);
-     total = (node->hindi + node->english + node->maths + node->social+node->science);
-    }else if(class==9 || class==10){
-     total = (node->hindi + node->english + node->maths + node->social+node->physics+node->bio+node->chemistry);
-    printf("|\tPHYSICS       \t  100      \t   33       \t    %d\n", node->science);
-    printf("|\tCHEMISTRY       \t  100      \t   33       \t    %d\n", node->science);
-    printf("|\tBIOLOGY       \t  100      \t   33       \t    %d\n", node->science);
+    if (class == 8)
+    {
+        printf("|\tSCIENCE       \t  100      \t   33       \t    %d\n", node->science);
+        total = (node->hindi + node->english + node->maths + node->social + node->science);
+    }
+    else if (class == 9 || class == 10)
+    {
+        total = (node->hindi + node->english + node->maths + node->social + node->physics + node->bio + node->chemistry);
+        printf("|\tPHYSICS       \t  100      \t   33       \t    %d\n", node->science);
+        printf("|\tCHEMISTRY       \t  100      \t   33       \t    %d\n", node->science);
+        printf("|\tBIOLOGY       \t  100      \t   33       \t    %d\n", node->science);
     }
     printf("|------------------------------------------------------------------------------------\n");
     printf("|\t              \t  600    |    GRAND TOTAL\t    %d\n", total);
@@ -503,139 +502,195 @@ void certificate(int class, char rollno[])
 }
 void main()
 {
+    int op, class;
+    char rollno[10];
     read();
     struct student *address;
-    while (1)
+menu1:
+    printf("\nLogin :\n1.Admin\n2.Student\n3.exit\n");
+    scanf("%d", &op);
+    switch (op)
     {
-        printf("\nOperations\n1.create\n2.delete\n3.display\n4.update\n5.Student Cirtificate\n6.exit\n");
-        int op, class, maths, social, english, science, hindi;
-        char name[10], rollno[10], yn;
+    case 1:
+        while (1)
+        {
+        menu2:
+            printf("\nOperations\n1.create\n2.delete\n3.display\n4.update\n5.Student Cirtificate\n6. <- go back to login\n7.exit\n");
+            int maths, social, english, science, hindi;
+            char name[10], yn;
+            scanf("%d", &op);
+            switch (op)
+            {
+            case 1:
+                printf("enter name\n");
+                scanf("%s", name);
+                printf("enter rollno\n");
+                scanf("%s", rollno);
+                printf("enter class\n");
+                scanf("%d", &class);
+                address = create(name, rollno, class);
+                printf("enter the marks now ? (y,n) ");
+                scanf("%c", &yn);
+                scanf("%c", &yn);
+                if (yn == 'y' || yn == 'Y')
+                {
+                    subject(address, class);
+                }
+                break;
+            case 2:
+                printf("enter strudent rollno and class ");
+                scanf("%s%d", rollno, &class);
+                delete (class, rollno);
+                break;
+            case 3:
+                printf("enter class ");
+                scanf("%d", &class);
+                display(class);
+                break;
+            case 4:
+                printf("enter the class and rollno ");
+                scanf("%d%s", &class, rollno);
+                address = find(class, rollno);
+                if (class == 8 || class == 9 || class == 10)
+                {
+
+                    printf("what would u like to update\n1.update all details\n2.update all subject marks\n3.update Name\n4.update RollNo\n5.update marks in Maths\n6.update marks in Social\n7.update marks in Hindi\n8.update marks in English");
+                    if (class == 8)
+                    {
+                        printf("\n9.update marks in Science\n10. <- go back to login \n");
+                    }
+                    else if (class == 9 || class == 10)
+                    {
+                        printf("\n9.update marks in Physics\n10.update marks in Chemistry\n11.update marks in Biology\n12. <- go back to login\n");
+                    }
+                    scanf("%d", &op);
+                    switch (op)
+                    {
+                    case 1:
+                        updateall(address, class);
+                        break;
+                    case 2:
+                        subject(address, class);
+                        break;
+                    case 3:
+                        printf("enter name ");
+                        scanf("%s", name);
+                        updatedetail(address, op, name);
+                        break;
+                    case 4:
+                        printf("enter rollno ");
+                        scanf("%s", rollno);
+                        updatedetail(address, op, rollno);
+                        break;
+                    case 5:
+                        printf("enter marks in Maths ");
+                        scanf("%d", &maths);
+                        update(address, op, maths, class);
+                        break;
+                    case 6:
+                        printf("enter marks in Social ");
+                        scanf("%d", &social);
+                        update(address, op, social, class);
+                        break;
+                    case 7:
+                        printf("enter marks in Hindi ");
+                        scanf("%d", &hindi);
+                        update(address, op, hindi, class);
+                        break;
+                    case 8:
+                        printf("enter marks in English ");
+                        scanf("%d", &english);
+                        update(address, op, english, class);
+                        break;
+                    case 9:
+                        if (class == 8)
+                        {
+                            printf("enter marks in Science ");
+                            scanf("%d", &science);
+                            update(address, op, science, class);
+                        }
+                        else if (class == 9 || class == 10)
+                        {
+                            printf("enter marks in Physics ");
+                            scanf("%d", &science);
+                            update(address, op, science, class);
+                        }
+                        break;
+                    case 10:
+                        if (class == 8)
+                        {
+                            writedata();
+                            goto menu2;
+                        }
+                        else if (class == 9 || class == 10)
+                        {
+                            printf("enter marks in Chemistry ");
+                            scanf("%d", &english);
+                            update(address, op, english, class);
+                            break;
+                        }
+                    case 11:
+                        printf("enter marks in Biology ");
+                        scanf("%d", &english);
+                        update(address, op, english, class);
+                        break;
+                    case 12:
+                        writedata();
+                        goto menu2;
+                    default:
+                        printf("invalid input\n");
+                        break;
+                    }
+                }
+                else
+                {
+                    printf("invalid class or rollno ");
+                }
+                break;
+            case 5:
+                printf("enter class and rollno : ");
+                scanf("%d%s", &class, rollno);
+                certificate(class, rollno);
+                break;
+            case 6:
+                writedata();
+                goto menu1;
+            case 7:
+                writedata();
+                printf("exit...");
+                exit(0);
+            default:
+                printf("invalid input\n");
+                break;
+            }
+        }
+    case 2:
+        printf("\n1.Display\n2.Student Cirtificate\n3. <- go back to login\n");
         scanf("%d", &op);
         switch (op)
         {
         case 1:
-            printf("enter name\n");
-            scanf("%s", name);
-            printf("enter rollno\n");
-            scanf("%s", rollno);
-            printf("enter class\n");
-            scanf("%d", &class);
-            address = create(name, rollno, class);
-            printf("enter the marks now ? (y,n)");
-            scanf("%c", &yn);
-            scanf("%c", &yn);
-            if (yn == 'y' || yn == 'Y')
-            {
-                subject(address, class);
-            }
-            break;
-        case 2:
-            printf("enter strudent rollno and class");
-            scanf("%s%d", rollno, &class);
-            delete (class, rollno);
-            break;
-        case 3:
             printf("enter class\n");
             scanf("%d", &class);
             display(class);
             break;
-        case 4:
-            printf("enter the class and rollno");
-            scanf("%d%s", &class, rollno);
-            address = find(class, rollno);
-            if (class == 8 || class == 9 || class == 10)
-            {
-
-                printf("what would u like to update\n1.update all details\n2.update all subject marks\n3.update Name\n4.update RollNo\n5.update marks in Maths\n6.update marks in Social\n7.update marks in Hindi\n8.update marks in English");
-                if (class == 8)
-                {
-                    printf("\n9.update marks in Science\n");
-                }
-                else if (class == 9 || class == 10)
-                {
-                    printf("\n9.update marks in Physics\n10.update marks in Chemistry\n11.update marks in Biology\n");
-                }
-                scanf("%d", &op);
-                switch (op)
-                {
-                case 1:
-                    updateall(address, class);
-                    break;
-                case 2:
-                    subject(address, class);
-                    break;
-                case 3:
-                    printf("enter name\n");
-                    scanf("%s", name);
-                    updatedetail(address, op, name);
-                    break;
-                case 4:
-                    printf("enter rollno\n");
-                    scanf("%s", rollno);
-                    updatedetail(address, op, rollno);
-                    break;
-                case 5:
-                    printf("enter marks in Maths ");
-                    scanf("%d", &maths);
-                    update(address, op, maths, class);
-                    break;
-                case 6:
-                    printf("enter marks in Social ");
-                    scanf("%d", &social);
-                    update(address, op, social, class);
-                    break;
-                case 7:
-                    printf("enter marks in Hindi ");
-                    scanf("%d", &hindi);
-                    update(address, op, hindi, class);
-                    break;
-                case 8:
-                    printf("enter marks in English ");
-                    scanf("%d", &english);
-                    update(address, op, english, class);
-                    break;
-                case 9:
-                    if (class == 8)
-                    {
-                        printf("enter marks in Science ");
-                        scanf("%d", &science);
-                        update(address, op, science, class);
-                    }
-                    else if (class == 9 || class == 10)
-                    {
-                        printf("enter marks in Physics ");
-                        scanf("%d", &science);
-                        update(address, op, science, class);
-                    }
-                    break;
-                case 10:
-                    printf("enter marks in Chemistry ");
-                    scanf("%d", &english);
-                    update(address, op, english, class);
-                    break;
-                case 11:
-                    printf("enter marks in Biology ");
-                    scanf("%d", &english);
-                    update(address, op, english, class);
-                    break;
-                default:
-                }
-            }
-            else
-            {
-                printf("invalid class or rollno");
-            }
-            break;
-            break;
-        case 5:
+        case 2:
             printf("enter class and rollno : ");
             scanf("%d%s", &class, rollno);
             certificate(class, rollno);
             break;
-        case 6:
-            writedata();
+        case 3:
+            goto menu1;
         default:
+            printf("invalid input\n");
             break;
         }
+        break;
+    case 3:
+        printf("exit..");
+        exit(0);
+    default:
+        printf("invalid input\n");
+        break;
     }
 }
